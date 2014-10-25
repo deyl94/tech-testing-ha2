@@ -236,8 +236,8 @@ class SaveTestCase(unittest.TestCase):
         control_campaign.click_on_edit()
         self.assertEqual(PAD, base_settings.get_control_pad())
         self.assertEqual(SEX, create_page.sex.get_sex())
-        self.assertEqual(REGION, region.get_selected_region())
         self.assertEqual(self.CAMPAIGN_NAME, base_settings.get_campaign_name())
+        self.assertEqual(REGION, region.get_selected_region())
 
     def test_if_right_selections_some(self):
         PAD = u'Мой Мир: веб-версия'
