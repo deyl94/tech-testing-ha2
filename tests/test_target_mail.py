@@ -11,7 +11,7 @@ from tests.pages.campaign_page import ControlCampaignPage
 
 class SelectionOptionsTestCase(unittest.TestCase):
     def setUp(self):
-        browser = os.environ.get('TTHA2BROWSER', 'FIREFOX')
+        browser = os.environ.get('TTHA2BROWSER', 'CHROME')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -54,7 +54,7 @@ class SelectionOptionsTestCase(unittest.TestCase):
         BANNER_TITLE = u'ololo'
         BANNER_TEXT = u'Грильяж и куртизанки!'
         BANNER_URL = u'http://my.mail.ru/v/42'
-        BANNER_IMG = u'/home/roland/tech-tests/tech-testing-ha2/tests/resourses/img/img.jpg'
+        BANNER_IMG = os.path.abspath('./tests/resourses/img/img.jpg')
         create_page = CreatePage(self.driver)
         create_page.open()
 
@@ -126,13 +126,12 @@ class SelectionOptionsTestCase(unittest.TestCase):
         self.assertEqual(NUMBER_USA, region.get_number_of_regions(region.NUMBER_USA))
         self.assertEqual(NUMBER_CANADA, region.get_number_of_regions(region.NUMBER_CANADA))
         self.assertEqual(NUMBER_AMERICA, region.get_number_of_regions(region.NUMBER_AMERICA))
-
     pass
 
 
 class SaveTestCase(unittest.TestCase):
     def setUp(self):
-        browser = os.environ.get('TTHA2BROWSER', 'FIREFOX')
+        browser = os.environ.get('TTHA2BROWSER', 'CHROME')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -147,7 +146,7 @@ class SaveTestCase(unittest.TestCase):
         self.BANNER_TEXT = u'Грильяж и куртизанки!'
         self.BANNER_URL = u'http://my.mail.ru/v/42'
         self.CAMPAIGN_NAME = ''.join(random.choice(string.ascii_letters) for _ in range(6))
-        self.BANNER_IMG = u'/home/roland/tech-tests/tech-testing-ha2/tests/resourses/img/img.jpg'
+        self.BANNER_IMG = os.path.abspath('./tests/resourses/img/img.jpg')
 
         auth_page = AuthPage(self.driver)
         auth_page.open()

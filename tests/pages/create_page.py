@@ -1,4 +1,5 @@
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from tests.pages.page import Page, Component
 
@@ -38,12 +39,12 @@ class PortalHeadline(Component):
     EXIT = '#PH_logoutLink'
 
     def get_email(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
+        return WebDriverWait(self.driver, 30, 3).until(
             lambda d: d.find_element_by_css_selector(self.EMAIL).text
         )
 
     def get_exit(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
+        return WebDriverWait(self.driver, 30, 3).until(
             lambda d: d.find_element_by_css_selector(self.EXIT)
         )
 
@@ -63,45 +64,45 @@ class BannerForm(Component):
     BANNER_SAVE = '.banner-form__save-button'
 
     def set_banner_title(self, title):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.BANNER_TITLE)
         )
         element.clear()
         element.send_keys(title)
 
     def preview_banner_title(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.BANNER_TITLE_PREVIEW)
         )
         return element.text
 
     def set_banner_text(self, text):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.BANNER_TEXT_AREA)
         )
         element.clear()
         element.send_keys(text)
 
     def preview_banner_text(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.BANNER_TEXT_AREA_PREVIEW)
         )
         return element.text
 
     def set_banner_url(self, url):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.BANNER_URL)
         )
         element.send_keys(url)
 
     def set_banner_image(self, path):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.BANNER_IMG)
         )
         element.send_keys(path)
 
     def wait_banner_image(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
+        WebDriverWait(self.driver, 30, 3).until(
             self.preview_image
         )
 
@@ -109,11 +110,16 @@ class BannerForm(Component):
         if el.find_element_by_css_selector(self.BANNER_PREVIEW_IMG).value_of_css_property("display") == 'block':
             return el
 
+    def wait_until_visible_then_click(self, element):
+        element = WebDriverWait(self.driver, 30, 3).until(
+            expected_conditions.visibility_of(element))
+        element.click()
+
     def banner_save(self):
         self.wait_banner_image()
 
-        element = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda el: el.find_element_by_css_selector(self.BANNER_IMG)
+        element = WebDriverWait(self.driver, 30, 3).until(
+            lambda el: el.find_element_by_css_selector(self.BANNER_SAVE)
         )
         element.click()
 
@@ -127,32 +133,32 @@ class BaseSetting(Component):
     CONTROL_PAD = '.base-setting__pads-item__label'
 
     def set_campaign_name(self, name):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.CAMPAIGN_NAME)
         )
         element.clear()
         element.send_keys(name)
 
     def get_campaign_name(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.CAMPAIGN_NAME)
         )
         return element.get_attribute('value')
 
     def set_product_type(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.PRODUCT_TYPE)
         )
         element.click()
 
     def set_setting_pad(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SETTING_PAD)
         )
         element.click()
 
     def get_control_pad(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.CONTROL_PAD)
         )
         return element.text
@@ -166,28 +172,34 @@ class Sex(Component):
     SEX_WOMEN = '#sex-F'
 
     def get_sex(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SEX)
         )
         return element.text
 
+    def wait_until_visible_then_click(self, element):
+        element = WebDriverWait(self.driver, 30, 0.5).until(
+            expected_conditions.visibility_of(element))
+        element.click()
+
     def click_on_sex(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SEX)
         )
-        return element.click()
+        element.click()
+        # self.wait_until_visible_then_click(element)
 
     def click_on_men(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SEX_MEN)
         )
-        element.click()
+        self.wait_until_visible_then_click(element)
 
     def click_on_women(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SEX_WOMEN)
         )
-        element.click()
+        self.wait_until_visible_then_click(element)
 
     pass
 
@@ -208,31 +220,31 @@ class Region(Component):
     NUMBER_USA = 'li.campaign-setting__chosen-box__item:nth-child(3) > span:nth-child(2)'
 
     def click_checkbox(self, checkbox):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(checkbox)
         )
         element.click()
 
     def click_dropdown(self, region):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(region)
         )
         element.click()
 
     def get_number_of_regions(self, region):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(region)
         )
         return element.text
 
     def get_selected_region(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SELECTED)
         )
         return element.text
 
     def get_children_regions_remain(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda d: d.find_element_by_css_selector(self.CHILDREN_REGIONS)
         )
         return element.text
@@ -244,7 +256,7 @@ class Save(Component):
     SAVE_BUTTON = '.main-button__label'
 
     def click_save_button(self):
-        element = WebDriverWait(self.driver, 30, 0.1).until(
+        element = WebDriverWait(self.driver, 30, 3).until(
             lambda el: el.find_element_by_css_selector(self.SAVE_BUTTON)
         )
         element.click()
