@@ -9,6 +9,6 @@ if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(SelectionOptionsTestCase),
         unittest.makeSuite(SaveTestCase),
-    ))i
+    ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
